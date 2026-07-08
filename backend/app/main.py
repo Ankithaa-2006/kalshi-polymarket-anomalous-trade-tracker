@@ -4,17 +4,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from .database import engine, Base
 from .api.router import api_router
 
+from .scheduler import start_scheduler
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup: create tables if they don't exist
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     
-    # We will initialize the scheduler here later
+    scheduler = start_scheduler()
     yield
     # Shutdown
-    # We will shutdown the scheduler here later
-    pass
+    scheduler.shutdown(wait=False)
 
 app = FastAPI(
     title="Prediction Market Anomaly Tracker",

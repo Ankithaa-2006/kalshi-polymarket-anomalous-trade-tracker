@@ -61,7 +61,43 @@ async def fetch_public_trades(session: AsyncSession, ticker: str) -> None:
         try:
             response = await client.get(url)
             response.raise_for_status()
-            # Process trades
-            pass
+            trades = data.get("trades", [])
+            for trade in trades:
+                # We need to map trade to market and bet
+                stmt = select(Market).where(Market.external_market_id == ticker, Market.platform == 'kalshi')
+                res = await session.execute(stmt)
+                market = res.scalar_one_or_none()
+                if not market:
+                    continue
+
+                trade_time_str = trade.get('created_time')
+                if trade_time_str:
+                    try:
+                        trade_time = datetime.fromisoformat(trade_time_str.replace("Z", "+00:00"))
+                    except:
+                        trade_time = datetime.now(timezone.utc)
+                else:
+                    trade_time = datetime.now(timezone.utc)
+
+                time_to_res = None
+                if market.resolution_date:
+                    delta = market.resolution_date - trade_time
+                    time_to_res = max(0, delta.total_seconds() / 3600.0)
+
+                # Kalshi public trades don't reveal trader ID directly, so we use None
+                bet = Bet(
+                    market_id=market.id,
+                    trader_id=None,
+                    side='yes' if trade.get('yes_price', 0) > trade.get('no_price', 0) else 'no',
+                    size=float(trade.get('count', 0)),
+                    price=float(trade.get('yes_price', 0)) / 100.0 if trade.get('yes_price') else 0.5,
+                    bet_timestamp=trade_time,
+                    time_to_resolution_hours=time_to_res
+                )
+                session.add(bet)
+
+            await session.commit()
+            logger.info(f"Successfully fetched Kalshi trades for {ticker}.")
         except Exception as e:
             logger.error(f"Error fetching Kalshi trades for {ticker}: {e}")
+            await session.rollback()
