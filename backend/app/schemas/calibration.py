@@ -19,3 +19,8 @@ class CalibrationSummaryResponse(BaseModel):
     platform: Optional[str] = None
     category: Optional[str] = None
     caveat: Optional[str] = None
+    
+    # NEW fields from materialized table
+    scope: Optional[str] = None
+    confidence_tier: Optional[str] = None
+    sample_size: Optional[int] = None

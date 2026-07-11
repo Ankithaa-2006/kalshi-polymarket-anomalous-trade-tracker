@@ -11,6 +11,8 @@ class AnomalyScore(Base):
     market_score: Mapped[Optional[Decimal]] = mapped_column(Numeric(10, 4))
     lifecycle_weight: Mapped[Decimal] = mapped_column(Numeric(10, 4), default=1.0)
     composite_score: Mapped[Decimal] = mapped_column(Numeric(10, 4))
+    cross_platform_corroboration: Mapped[Optional[Decimal]] = mapped_column(Numeric(10, 4))
+    confidence_tier: Mapped[Optional[str]] = mapped_column(String(20))
     flagged: Mapped[bool] = mapped_column(Boolean, default=False)
     scoring_mode: Mapped[str] = mapped_column(String(20), default='market_only')  # 'full' or 'market_only'
     

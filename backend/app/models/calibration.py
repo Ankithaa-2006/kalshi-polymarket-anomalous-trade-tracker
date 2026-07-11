@@ -1,8 +1,9 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey, Numeric
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 from datetime import datetime
 from typing import Optional
+from decimal import Decimal
 from ..database import Base
 
 class CalibrationResult(Base):
@@ -15,3 +16,13 @@ class CalibrationResult(Base):
     computed_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
     
     bet = relationship('Bet', back_populates='calibration_result')
+
+class CalibrationSummary(Base):
+    __tablename__ = 'calibration_summary'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    scope: Mapped[str] = mapped_column(String(100), nullable=False) # 'global' or category name
+    confidence_tier: Mapped[Optional[str]] = mapped_column(String(20))
+    hit_rate: Mapped[Optional[Decimal]] = mapped_column(Numeric(5, 4))
+    sample_size: Mapped[int] = mapped_column(Integer, default=0)
+    last_computed: Mapped[datetime] = mapped_column(DateTime, default=func.now())
+

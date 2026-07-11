@@ -13,6 +13,8 @@ class TraderBaseline(Base):
     mad_bet_size: Mapped[Decimal] = mapped_column(Numeric(18, 4))
     win_rate: Mapped[Optional[Decimal]] = mapped_column(Numeric(5, 4))
     total_resolved_bets: Mapped[int] = mapped_column(Integer, default=0)
+    large_bet_win_rate: Mapped[Optional[Decimal]] = mapped_column(Numeric(5, 4))
+    reputation_score: Mapped[Optional[Decimal]] = mapped_column(Numeric(5, 4))
     last_computed: Mapped[datetime] = mapped_column(DateTime, default=func.now())
     
     trader = relationship('Trader', back_populates='baseline')

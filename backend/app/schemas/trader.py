@@ -14,4 +14,6 @@ class TraderHistoryResponse(BaseModel):
     median_bet_size: Optional[float]
     mad_bet_size: Optional[float]
     win_rate: Optional[float]
+    large_bet_win_rate: Optional[float] = None
+    reputation_score: Optional[float] = None
     total_resolved_bets: int

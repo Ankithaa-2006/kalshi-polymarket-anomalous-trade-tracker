@@ -21,7 +21,9 @@ export interface AnomalyScores {
   self_score: number | null;
   market_score: number | null;
   lifecycle_weight: number;
+  cross_platform_corroboration: number | null;
   composite_score: number;
+  confidence_tier: string | null;
   flagged: boolean;
   scoring_mode: 'full' | 'market_only';
 }
@@ -40,7 +42,9 @@ export interface FlaggedBet {
   self_score: number | null;
   market_score: number | null;
   lifecycle_weight: number;
+  cross_platform_corroboration: number | null;
   composite_score: number;
+  confidence_tier: string | null;
   scoring_mode: 'full' | 'market_only';
   // Context
   market_title: string | null;
@@ -72,6 +76,9 @@ export interface CalibrationSummary {
   platform: string | null;
   category: string | null;
   caveat: string | null;
+  scope: string | null;
+  confidence_tier: string | null;
+  sample_size: number | null;
 }
 
 export interface TraderHistory {
@@ -80,7 +87,36 @@ export interface TraderHistory {
   median_bet_size: number | null;
   mad_bet_size: number | null;
   win_rate: number | null;
+  large_bet_win_rate: number | null;
+  reputation_score: number | null;
   total_resolved_bets: number;
+}
+
+export interface LeaderboardTrader {
+  id: number;
+  platform: string;
+  external_trader_id: string;
+  win_rate: number | null;
+  large_bet_win_rate: number | null;
+  reputation_score: number | null;
+  total_resolved_bets: number;
+}
+
+export interface MarketMatch {
+  id: number;
+  market_id_a: number;
+  market_id_b: number;
+  similarity_score: number | null;
+  confirmed: boolean;
+  created_at: string;
+}
+
+export interface Watchlist {
+  id: number;
+  user_id: number;
+  watch_type: string;
+  watch_value: string;
+  created_at: string;
 }
 
 export interface PaginatedResponse<T> {
@@ -93,6 +129,7 @@ export interface PaginatedResponse<T> {
 export interface DashboardFilters {
   platform: 'all' | 'kalshi' | 'polymarket';
   category: string | null;
+  confidence_tier: string | null;
   scoreMin: number;
   scoreMax: number;
   flaggedOnly: boolean;

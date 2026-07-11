@@ -4,7 +4,9 @@ from .bet import Bet
 from .baseline import TraderBaseline, MarketBaseline
 from .anomaly import AnomalyScore
 from .news import NewsEvent
-from .calibration import CalibrationResult
+from .calibration import CalibrationResult, CalibrationSummary
+from .market_match import MarketMatch
+from .user import User, Watchlist, AlertSent
 
 __all__ = [
     'Market',
@@ -15,4 +17,9 @@ __all__ = [
     'AnomalyScore',
     'NewsEvent',
     'CalibrationResult',
+    'CalibrationSummary',
+    'MarketMatch',
+    'User',
+    'Watchlist',
+    'AlertSent',
 ]

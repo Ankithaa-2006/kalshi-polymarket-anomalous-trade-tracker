@@ -15,6 +15,13 @@ class Settings(BaseSettings):
     REDIS_URL: str = 'redis://localhost:6379/0'
     HOST: str = '0.0.0.0'
     PORT: int = 8000
+    
+    # SMTP Alerting config
+    SMTP_HOST: str = ''
+    SMTP_PORT: int = 587
+    SMTP_USER: str = ''
+    SMTP_PASS: str = ''
+    SMTP_FROM: str = 'alerts@prediction-tracker.local'
 
     model_config = SettingsConfigDict(
         env_file='../../.env',

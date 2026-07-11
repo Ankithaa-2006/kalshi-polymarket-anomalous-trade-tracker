@@ -381,3 +381,40 @@ select:focus, input:focus {
     grid-template-columns: 3fr 1fr;
   }
 }
+
+/* Leaderboard / Watchlists pages share .dashboard alias */
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+}
+
+.mono {
+  font-family: 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 0.85rem;
+}
+
+.error {
+  color: var(--color-accent-red);
+  font-size: 0.875rem;
+  padding: 0.5rem;
+}
+
+.ml-2 { margin-left: 0.5rem; }
+.font-bold { font-weight: 700; }

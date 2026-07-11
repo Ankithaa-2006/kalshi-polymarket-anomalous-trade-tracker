@@ -21,6 +21,8 @@ class FlaggedBetResponse(BetResponse):
     market_score: Optional[float]
     lifecycle_weight: float
     composite_score: float
+    cross_platform_corroboration: Optional[float] = None
+    confidence_tier: Optional[str] = None
     scoring_mode: str
     market_title: Optional[str]
     platform: str
